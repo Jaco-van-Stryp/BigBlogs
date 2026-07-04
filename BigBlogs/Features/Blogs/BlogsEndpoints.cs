@@ -1,17 +1,16 @@
-﻿using BigBlogs.Features.Blogs.GetAllBlogs;
-using BigBlogs.Features.Blogs.GetSpecificBlog;
-using BigBlogs.Features.CreateBlog;
-
-namespace BigBlogs.Features.Blogs;
+﻿namespace BigBlogs.Features.Blogs;
 
 public static class BlogsEndpoints
 {
-    public static IEndpointRouteBuilder MapBlogEndpoints(this IEndpointRouteBuilder group)
+    public static IEndpointRouteBuilder MapBlogEndpoints(this IEndpointRouteBuilder app)
     {
-        group.MapGroup("blogs").WithTags("Blogs");
+        var group = app.MapGroup("blogs").WithTags("Blogs");
         group.MapCreateBlog();
         group.MapGetAllBlogs();
         group.MapGetSpecificBlog();
+        group.MapDeleteBlog();
+        group.MapUpdateBlog();
+
         return group;
     }
 }

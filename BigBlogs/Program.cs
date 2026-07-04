@@ -1,6 +1,5 @@
 using BigBlogs.Data;
 using BigBlogs.Features;
-using BigBlogs.Features.CreateBlog;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -13,9 +12,23 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+builder
+    .Services.AddMcpServer()
+    .WithHttpTransport(options => options.Stateless = true)
+    .WithToolsFromAssembly();
 
-//Add Scalar
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        "McpInspector",
+        policy =>
+            policy
+                .AllowAnyOrigin()
+                .WithMethods("POST", "GET", "DELETE")
+                .WithHeaders("Content-Type", "Authorization", "MCP-Protocol-Version", "Mcp-Session-Id")
+                .WithExposedHeaders("Mcp-Session-Id")
+    );
+});
 
 var app = builder.Build();
 
@@ -24,8 +37,15 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.MapScalarApiReference();
+    app.UseCors("McpInspector");
 }
 
 app.MapEndpoints();
-app.UseHttpsRedirection();
+app.MapMcp();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
 app.Run();

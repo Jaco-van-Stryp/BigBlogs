@@ -1,6 +1,6 @@
 ﻿using BigBlogs.Data;
 
-namespace BigBlogs.Features.CreateBlog;
+namespace BigBlogs.Features.Blogs;
 
 public static class CreateBlog
 {

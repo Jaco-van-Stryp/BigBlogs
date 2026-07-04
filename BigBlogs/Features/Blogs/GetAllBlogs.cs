@@ -1,7 +1,7 @@
 ﻿using BigBlogs.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace BigBlogs.Features.Blogs.GetAllBlogs;
+namespace BigBlogs.Features.Blogs;
 
 public static class GetAllBlogs
 {

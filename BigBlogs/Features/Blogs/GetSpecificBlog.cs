@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
-namespace BigBlogs.Features.Blogs.GetSpecificBlog;
+namespace BigBlogs.Features.Blogs;
 
 public static class GetSpecificBlog
 {
-    private readonly record struct GetSpecificBlogResponse(
+    internal record GetSpecificBlogResponse(
         Guid Id,
         string BlogTitle,
         string BlogAuthor,
@@ -15,7 +15,7 @@ public static class GetSpecificBlog
         DateTime DatePosted
     );
 
-    public static IEndpointRouteBuilder MapGetSpecificBlog(this IEndpointRouteBuilder app)
+    internal static IEndpointRouteBuilder MapGetSpecificBlog(this IEndpointRouteBuilder app)
     {
         app.MapGet("get-specific-blog/{blogId}", HandleAsync).WithTags("GetSpecificBlog");
         return app;
@@ -34,6 +34,7 @@ public static class GetSpecificBlog
             blogs.BlogCategory,
             blogs.DatePosted
         );
-        return TypedResults.Ok(blogs);
+        // create
+        return TypedResults.Ok(response);
     }
 }

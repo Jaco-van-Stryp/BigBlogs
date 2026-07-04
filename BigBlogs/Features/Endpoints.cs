@@ -4,9 +4,9 @@ namespace BigBlogs.Features;
 
 public static class Endpoints
 {
-    public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder group)
+    public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder app)
     {
-        group.MapGroup("api").WithTags("BigBlogs");
+        var group = app.MapGroup("api").WithTags("BigBlogs");
         group.MapBlogEndpoints();
         return group;
     }
