@@ -1,0 +1,7 @@
+﻿services:
+  bigblogs:
+    image: bigblogs
+    build:
+      context: .
+      dockerfile: BigBlogs/Dockerfile
+
