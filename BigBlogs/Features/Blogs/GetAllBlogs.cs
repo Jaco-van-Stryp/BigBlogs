@@ -45,6 +45,6 @@ public static class GetAllBlogs
             ))
             .ToList();
 
-        return Results.Ok(response);
+        return TypedResults.Ok(response);
     }
 }

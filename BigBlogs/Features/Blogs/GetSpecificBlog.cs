@@ -17,7 +17,7 @@ public static class GetSpecificBlog
 
     public static IEndpointRouteBuilder MapGetSpecificBlog(this IEndpointRouteBuilder app)
     {
-        app.MapGet("get-specific-blog/{blogId}", HandleAsync);
+        app.MapGet("get-specific-blog/{blogId}", HandleAsync).WithTags("GetSpecificBlog");
         return app;
     }
 
@@ -34,6 +34,6 @@ public static class GetSpecificBlog
             blogs.BlogCategory,
             blogs.DatePosted
         );
-        return Results.Ok(blogs);
+        return TypedResults.Ok(blogs);
     }
 }

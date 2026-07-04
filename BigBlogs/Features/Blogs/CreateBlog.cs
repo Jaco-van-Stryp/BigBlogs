@@ -15,7 +15,7 @@ public static class CreateBlog
 
     public static IEndpointRouteBuilder MapCreateBlog(this IEndpointRouteBuilder app)
     {
-        app.MapPost("create-blog", Handle);
+        app.MapPost("create-blog", Handle).WithTags("CreateBlog");
         return app;
     }
 
@@ -37,6 +37,6 @@ public static class CreateBlog
         context.Blogs.Add(blog);
 
         await context.SaveChangesAsync(cancellationToken);
-        return Results.Created($"get-specific-blog/{blog.Id}", new Response(blog.Id));
+        return TypedResults.Created($"get-specific-blog/{blog.Id}", new Response(blog.Id));
     }
 }
