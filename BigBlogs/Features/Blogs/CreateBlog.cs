@@ -25,18 +25,38 @@ public static class CreateBlog
         CancellationToken cancellationToken
     )
     {
+        var response = await CreateBlogCore(
+            request.BlogTitle,
+            request.BlogAuthor,
+            request.BlogContent,
+            request.BlogCategory,
+            context,
+            cancellationToken
+        );
+        return TypedResults.Created($"get-specific-blog/{response.Id}", response);
+    }
+
+    internal static async Task<Response> CreateBlogCore(
+        string blogTitle,
+        string blogAuthor,
+        string blogContent,
+        string blogCategory,
+        AppDbContext context,
+        CancellationToken cancellationToken
+    )
+    {
         var blog = new Entities.Blogs
         {
-            BlogTitle = request.BlogTitle,
-            BlogAuthor = request.BlogAuthor,
-            BlogContent = request.BlogContent,
-            BlogCategory = request.BlogCategory,
+            BlogTitle = blogTitle,
+            BlogAuthor = blogAuthor,
+            BlogContent = blogContent,
+            BlogCategory = blogCategory,
             DatePosted = DateTime.UtcNow,
         };
 
         context.Blogs.Add(blog);
 
         await context.SaveChangesAsync(cancellationToken);
-        return TypedResults.Created($"get-specific-blog/{blog.Id}", new Response(blog.Id));
+        return new Response(blog.Id);
     }
 }

@@ -7,5 +7,6 @@ public class Blogs
     public required string BlogAuthor { get; set; }
     public required string BlogContent { get; set; }
     public required string BlogCategory { get; set; }
+    public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
     public DateTime DatePosted { get; set; } = DateTime.UtcNow;
 }

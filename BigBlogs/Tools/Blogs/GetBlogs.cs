@@ -1,22 +1,23 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using BigBlogs.Data;
 using Microsoft.EntityFrameworkCore;
 using ModelContextProtocol.Server;
 
+namespace BigBlogs.Tools.Blogs;
+
 [McpServerToolType]
-public static class BlogTools
+public static class GetBlogs
 {
-    public record BlogsResponse(Guid Id, string Title);
+    public record BlogSummary(Guid Id, string Title);
 
     [McpServerTool, Description("Gets all the blog posts.")]
-    public static async Task<List<BlogsResponse>> GetBlogs(
+    public static async Task<List<BlogSummary>> GetBlogsAsync(
         AppDbContext context,
         CancellationToken cancellationToken
     )
     {
-        var blogs = await context
-            .Blogs.Select(b => new BlogsResponse(b.Id, b.BlogTitle))
+        return await context
+            .Blogs.Select(b => new BlogSummary(b.Id, b.BlogTitle))
             .ToListAsync(cancellationToken);
-        return blogs;
     }
 }
